@@ -6,17 +6,19 @@ export interface IElementDefinition {
   chuj: number;
 }
 
-type sectionRefs<T> = { [key in keyof T]: React.RefObject<HTMLDivElement> };
+export type ISectionRefs<T> = {
+  [key in keyof T]: React.RefObject<HTMLDivElement>
+};
 
 export interface IProps<T> {
   children: (
     Props: {
       activeElement?: keyof T;
-      refs: { [key in keyof T]: React.RefObject<HTMLDivElement> };
+      refs: ISectionRefs<T>;
       goTo: (elementKey: keyof T) => void;
     }
   ) => React.ReactElement<any>;
-  elementKeys: T;
+  elements: T;
 }
 export interface IState<T> {
   activeElement?: keyof T;
@@ -28,13 +30,12 @@ class IndexPage<T = IElementDefinition> extends React.Component<
 > {
   public state: IState<T> = {};
 
-  public sectionsRefs: {
-    [key in keyof T]: React.RefObject<HTMLDivElement>
-  } = mapValues(
+  public sectionsRefs: ISectionRefs<T> = mapValues(
     () => React.createRef<HTMLDivElement>(),
-    this.props.elementKeys
+    this.props.elements
   );
-  public handleFindActiveElement = throttle(200, () => {
+
+  public handleFindActiveElement = throttle(100, () => {
     const html = document.documentElement;
     const windowHeight = window.innerHeight || html!.clientHeight;
 
