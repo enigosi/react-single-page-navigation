@@ -6,13 +6,16 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "example": "parcel example/index.html --open"
+    "example:serve": "parcel example/index.html --open",
+    "example:build": "parcel build example/index.html -d dist/example",
+    "example:deploy": "yarn example:build && gh-pages -d dist/example"
   },
   "author": "Wojciech Romanski",
   "license": "ISC",
   "devDependencies": {
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
+    "gh-pages": "^2.0.1",
     "prettier": "^1.15.3",
     "tslint": "^5.12.0",
     "tslint-config-prettier": "^1.17.0",
