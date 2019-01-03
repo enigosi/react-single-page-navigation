@@ -8,20 +8,25 @@
     "build": "tsc",
     "example:serve": "parcel example/index.html --open",
     "example:build": "parcel build example/index.html -d dist/example",
-    "example:deploy": "yarn example:build && gh-pages -d dist/example"
+    "example:deploy": "yarn example:build && gh-pages -d dist/example",
+    "test": "jest"
   },
   "author": "Wojciech Romanski",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^23.3.11",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
     "gh-pages": "^2.0.1",
+    "jest": "^23.6.0",
+    "jsdom": "^13.1.0",
+    "parcel-bundler": "^1.11.0",
     "prettier": "^1.15.3",
+    "ts-jest": "^23.10.5",
     "tslint": "^5.12.0",
     "tslint-config-prettier": "^1.17.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.2.2",
-    "parcel-bundler": "^1.11.0"
+    "typescript": "^3.2.2"
   },
   "peerDependencies": {
     "react": "^16.7.0",
@@ -30,5 +35,18 @@
   "dependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.7.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/config/test-preprocessor.js"
+    },
+    "testMatch": [
+      "**/__tests__/*.(test|spec).(ts|tsx|js)"
+    ]
   }
 }
