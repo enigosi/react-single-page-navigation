@@ -6,6 +6,7 @@
     "rulesDirectory": ["tslint-plugin-prettier"],
     "rules": {
       "prettier": true,
-      "object-literal-sort-keys": false
+      "object-literal-sort-keys": false,
+      "no-implicit-dependencies": false
     }
   }

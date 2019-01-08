@@ -17,7 +17,7 @@ export interface IProps<T> {
       refs: ISectionRefs<T>;
       goTo: (elementKey: keyof T) => void;
     }
-  ) => React.ReactElement<any>;
+  ) => JSX.Element | null;
   elements: T;
 }
 export interface IState<T> {
@@ -29,7 +29,7 @@ class IndexPage<T = IElementDefinition> extends React.Component<
   IState<T>
 > {
   public state: IState<T> = {};
-
+  public chuj: string = "dupa";
   public sectionsRefs: ISectionRefs<T> = mapValues(
     () => React.createRef<HTMLDivElement>(),
     this.props.elements
@@ -37,6 +37,8 @@ class IndexPage<T = IElementDefinition> extends React.Component<
 
   public handleFindActiveElement = throttle(100, () => {
     const html = document.documentElement;
+    const scrollTop = document.documentElement!.scrollTop;
+
     const windowHeight = window.innerHeight || html!.clientHeight;
 
     const rects = mapValues((sectionsRef: React.RefObject<HTMLDivElement>) => {
@@ -79,6 +81,7 @@ class IndexPage<T = IElementDefinition> extends React.Component<
 
   public goTo = (elementKey: keyof T) => {
     const current = this.sectionsRefs[elementKey].current;
+
     if (current) {
       window.scrollTo({
         top: current.offsetTop,
