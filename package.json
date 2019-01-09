@@ -1,25 +1,28 @@
 {
   "name": "react-single-page-navigation",
-  "version": "0.0.1",
-  "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "0.0.2-rc.0",
+  "description": "React Render Props single page scroll navigation component",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "tsc",
     "example:serve": "parcel example/index.html --open",
     "example:build": "parcel build example/index.html -d dist/example",
     "example:deploy": "yarn example:build && gh-pages -d dist/example",
     "test": "jest",
-    "lint": "tslint --project tsconfig.json"
+    "lint": "tslint --project tsconfig.json",
+    "prepublishOnly": "yarn test && yarn lint && yarn build && bump"
   },
-  "author": "Wojciech Romanski",
+  "author": "Wojciech Romanski <enigosi@gmail.com>",
+  "homepage": "https://github.com/enigosi/react-single-page-navigation",
   "license": "ISC",
   "devDependencies": {
     "@types/enzyme": "^3.1.15",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^23.3.11",
-    "@types/react": "^16.7.18",
-    "@types/react-dom": "^16.0.11",
+    "@types/react": "^16.0.0",
+    "@types/react-dom": "^16.0.0",
+    "bump-json-file": "^0.0.3",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "gh-pages": "^2.0.1",
@@ -28,6 +31,8 @@
     "jsdom": "^13.1.0",
     "parcel-bundler": "^1.11.0",
     "prettier": "^1.15.3",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "ts-jest": "^23.10.5",
     "tslint": "^5.12.0",
     "tslint-config-prettier": "^1.17.0",
@@ -35,12 +40,8 @@
     "typescript": "^3.2.2"
   },
   "peerDependencies": {
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0"
-  },
-  "dependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.7.0"
+    "react": ">16.0.0",
+    "react-dom": ">16.0.0"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -52,13 +53,25 @@
       "^.+\\.(ts|tsx)$": "<rootDir>/config/test-preprocessor.js"
     },
     "testMatch": [
-      "**/__tests__/*.(test|spec).(ts|tsx|js)"
+      "**/__tests__/*.(test|spec).(ts|tsx)"
     ]
   },
   "husky": {
     "hooks": {
       "pre-commit": "yarn test && yarn lint"
     }
-  }
-
+  },
+  "keywords": [
+    "react",
+    "component",
+    "scroll",
+    "single",
+    "page",
+    "navigation",
+    "react-component",
+    "render-prop"
+  ],
+  "files": [
+    "dist/src/*.*"
+  ]
 }
