@@ -1,11 +1,6 @@
 import * as React from "react";
 import { findKey, mapValues, throttle } from "./utils";
 
-export interface IElementDefinition {
-  property: string;
-  chuj: number;
-}
-
 export type ISectionRefs<T> = {
   [key in keyof T]: React.RefObject<HTMLDivElement>
 };
@@ -24,10 +19,7 @@ export interface IState<T> {
   activeElement?: keyof T;
 }
 
-class IndexPage<T = IElementDefinition> extends React.Component<
-  IProps<T>,
-  IState<T>
-> {
+class IndexPage<T> extends React.Component<IProps<T>, IState<T>> {
   public state: IState<T> = {};
   public chuj: string = "dupa";
   public sectionsRefs: ISectionRefs<T> = mapValues(

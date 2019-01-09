@@ -69,7 +69,9 @@
     "page",
     "navigation",
     "react-component",
-    "render-prop"
+    "render-prop",
+    "lightweight",
+    "dependency-free"
   ],
   "files": [
     "dist/src/*.*"
