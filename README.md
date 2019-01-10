@@ -1,7 +1,7 @@
 <h1 align="center">
    Lightweight React Single Page Navigation
 </h1>
-React dependency free render prop single page scroll navigation component
+React dependency free render prop single page scroll navigation component. Build for GatsbyJS/NextJS, but will work in standard react apps as well.
 
 ### Features
 * ☁️Lightweight (~1kB)
