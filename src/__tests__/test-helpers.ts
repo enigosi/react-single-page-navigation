@@ -23,13 +23,13 @@ export const getLastCallFirstArg = (mockedFunction: {
 }) => mockedFunction.mock.calls[mockedFunction.mock.calls.length - 1][0];
 
 /**
- * go around 200ms throttle that works based on new Date().getTime()
+ * go around 100ms throttle that works based on new Date().getTime()
  */
 export const createGetTimeFaker = () => {
   let lastTime = 0;
   (global as any).Date = class {
     public getTime = () => {
-      lastTime += 201;
+      lastTime += 101;
       return lastTime;
     };
   };

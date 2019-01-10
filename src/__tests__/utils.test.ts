@@ -77,24 +77,30 @@ describe("getComponentBounds", () => {
 describe("throttle", () => {
   test("throttled function should fire correctly", () => {
     const spy = jest.fn();
-    const throttled = throttle(2, spy);
+    const throttled = throttle(1, spy);
     throttled(1);
     expect(spy).toBeCalledWith(1);
   });
 
-  test("throttled function should fire correctly", done => {
+  test("should throttle function calls correctly", done => {
     const spy = jest.fn();
-    const throttled = throttle(1, spy);
+    const throttled = throttle(4, spy);
+
     throttled();
     throttled();
     throttled();
 
     expect(spy.mock.calls.length).toBe(1);
-
     setTimeout(() => {
-      throttled();
+      // should still be 1
+      expect(spy.mock.calls.length).toBe(1);
+    }, 0);
+    setTimeout(() => {
+      // trailing call should already happen
       expect(spy.mock.calls.length).toBe(2);
+      throttled();
+      expect(spy.mock.calls.length).toBe(3);
       done();
-    }, 2);
+    }, 6);
   });
 });

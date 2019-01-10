@@ -39,9 +39,19 @@ export function findKey<
  */
 export function throttle(delay: number, fn: (...args: any[]) => any) {
   let lastCall = 0;
+  let timeout: null | number = null;
   return (...args: any[]) => {
     const now = new Date().getTime();
+
     if (now - lastCall < delay) {
+      if (timeout) {
+        clearTimeout(timeout as any);
+      }
+
+      timeout = setTimeout(() => {
+        lastCall = now;
+        fn(...args);
+      }, delay) as any;
       return;
     }
     lastCall = now;
