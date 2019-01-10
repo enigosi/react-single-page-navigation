@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "example:serve": "parcel example/index.html --open",
-    "example:build": "parcel build example/index.html -d dist/example",
+    "example:build": "parcel build example/index.html -d dist/example --public-url ./",
     "example:deploy": "yarn example:build && gh-pages -d dist/example",
     "test": "jest",
     "lint": "tslint --project tsconfig.json",
