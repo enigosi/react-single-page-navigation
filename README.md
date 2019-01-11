@@ -51,5 +51,5 @@ const elements = { EL1Name: config, EL2Name: config };
 
 #### Render prop props
 **`refs`**: Object with same keys as `elements` and `createRef` as values. Component needs refs set properly to work.  
-**`goTo`**: function that takes as argument element key. When called will initaite scroll transition to given element.  
+**`goTo`**: function that takes as argument element key or number. When called will initaite scroll transition to given element or to given scroll position. To go to top use `goTo(0)`, to go to `EL2Name` use `goTo("EL2Name")`
 **`activeElement`**: Key of element that is active in the current scroll position (takes at least 50% of the view).

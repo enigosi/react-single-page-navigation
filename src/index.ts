@@ -68,15 +68,21 @@ class IndexPage<T> extends React.Component<IProps<T>, IState<T>> {
     window.removeEventListener("resize", this.handleFindActiveElement);
   }
 
-  public goTo = (elementKey: keyof T) => {
-    const current = this.sectionsRefs[elementKey].current;
-
-    if (current) {
-      window.scrollTo({
-        top: current.offsetTop,
-        behavior: "smooth"
-      });
+  public goTo = (scrollTo: keyof T | number) => {
+    // exit if element doesn't exist
+    if (scrollTo === "string" && !this.sectionsRefs[scrollTo].current) {
+      return;
     }
+
+    const scrollToPosition =
+      typeof scrollTo === "number"
+        ? scrollTo
+        : this.sectionsRefs[scrollTo].current!.offsetTop;
+
+    window.scrollTo({
+      top: scrollToPosition,
+      behavior: "smooth"
+    });
   };
 
   public render() {

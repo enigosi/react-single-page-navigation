@@ -132,7 +132,7 @@ describe("Component", () => {
     expect(getLastCallFirstArg(children).activeElement).toBe("EL2");
   });
 
-  test("element should pass working goTo function as a param", () => {
+  test("render prop param goTo should accept both element name and scroll position", () => {
     // we will be looking if window.scrollTo was called with right parameters
     const spy = jest
       .spyOn(global as any, "scrollTo")
@@ -159,10 +159,17 @@ describe("Component", () => {
 
     goTo("EL2");
 
-    const lastCall = getLastCallFirstArg(spy);
+    const calledByNameParam = getLastCallFirstArg(spy);
 
-    expect(lastCall.behavior).toBe("smooth");
-    expect(lastCall.top).toBe(DEFAULT_TEST_ELEMENT_HEIGHT);
+    expect(calledByNameParam.behavior).toBe("smooth");
+    expect(calledByNameParam.top).toBe(DEFAULT_TEST_ELEMENT_HEIGHT);
+
+    goTo(333);
+
+    const calledByPosition = getLastCallFirstArg(spy);
+
+    expect(calledByPosition.behavior).toBe("smooth");
+    expect(calledByPosition.top).toBe(333);
 
     spy.mockRestore();
   });
