@@ -11,7 +11,7 @@
     "example:deploy": "yarn example:build && gh-pages -d dist/example",
     "test": "jest",
     "lint": "tslint --project tsconfig.json",
-    "prepublishOnly": "yarn test && yarn lint && yarn build && bump"
+    "prepublishOnly": "yarn test && yarn lint && yarn build"
   },
   "author": "Wojciech Romanski <enigosi@gmail.com>",
   "homepage": "https://github.com/enigosi/react-single-page-navigation",
@@ -58,7 +58,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test && yarn lint"
+      "pre-commit": "yarn test && yarn lint && bump"
     }
   },
   "keywords": [

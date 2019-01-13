@@ -5,6 +5,10 @@ export type ISectionRefs<T> = {
   [key in keyof T]: React.RefObject<HTMLDivElement>
 };
 
+export interface IElements {
+  [elementName: string]: object;
+}
+
 export interface IProps<T> {
   children: (
     Props: {
@@ -14,12 +18,17 @@ export interface IProps<T> {
     }
   ) => JSX.Element | null;
   elements: T;
+  shouldEnableHistory?: boolean;
+  shouldModifyUrl?: boolean;
 }
 export interface IState<T> {
   activeElement?: keyof T;
 }
 
-class IndexPage<T> extends React.Component<IProps<T>, IState<T>> {
+class IndexPage<T extends IElements> extends React.Component<
+  IProps<T>,
+  IState<T>
+> {
   public state: IState<T> = {};
 
   public sectionsRefs: ISectionRefs<T> = mapValues(
@@ -37,12 +46,18 @@ class IndexPage<T> extends React.Component<IProps<T>, IState<T>> {
       }
     }, this.sectionsRefs);
 
-    const boundaries = mapValues(getComponentBounds(windowHeight), rects);
+    const elementInViewBoundaries = mapValues(
+      getComponentBounds(windowHeight),
+      rects
+    );
 
-    const sizes = mapValues(bounds => bounds.bottom - bounds.top, boundaries);
+    const elementInViewHeight = mapValues(
+      bounds => bounds.bottom - bounds.top,
+      elementInViewBoundaries
+    );
 
-    const maxSize = Math.max(...Object.values<number>(sizes));
-    const mostInTheViewElementKey = findKey(maxSize, sizes);
+    const maxHeight = Math.max(...Object.values<number>(elementInViewHeight));
+    const mostInTheViewElementKey = findKey(maxHeight, elementInViewHeight);
 
     if (this.state.activeElement !== mostInTheViewElementKey) {
       this.setState({ activeElement: mostInTheViewElementKey });
@@ -52,6 +67,11 @@ class IndexPage<T> extends React.Component<IProps<T>, IState<T>> {
   public componentDidMount() {
     this.attachListener();
     this.handleFindActiveElement();
+
+    const elementFromHash = window.location.hash.replace("#", "");
+    if (Object.keys(this.sectionsRefs).includes(elementFromHash)) {
+      this.goTo(elementFromHash as keyof T);
+    }
   }
 
   public componentWillUnmount() {
@@ -68,7 +88,10 @@ class IndexPage<T> extends React.Component<IProps<T>, IState<T>> {
     window.removeEventListener("resize", this.handleFindActiveElement);
   }
 
-  public goTo = (scrollTo: keyof T | number) => {
+  public goTo = (
+    scrollTo: keyof T | number,
+    behavior: ScrollToOptions["behavior"] = "smooth"
+  ) => {
     // exit if element doesn't exist
     if (scrollTo === "string" && !this.sectionsRefs[scrollTo].current) {
       return;
@@ -81,8 +104,16 @@ class IndexPage<T> extends React.Component<IProps<T>, IState<T>> {
 
     window.scrollTo({
       top: scrollToPosition,
-      behavior: "smooth"
+      behavior
     });
+
+    if (this.props.shouldEnableHistory && typeof scrollTo === "string") {
+      const modifyHistoryMethod = this.props.shouldModifyUrl
+        ? window.history.pushState
+        : window.history.replaceState;
+
+      modifyHistoryMethod(undefined, "", `#${scrollTo}`);
+    }
   };
 
   public render() {

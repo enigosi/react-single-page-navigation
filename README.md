@@ -4,7 +4,7 @@
 React dependency free render prop single page scroll navigation component. Build for GatsbyJS/NextJS, but will work in standard react apps as well.
 
 ### Features
-* ☁️Lightweight (~1kB)
+* ☁️Lightweight (~2kB)
 * 🎉 Dependency Free
 * 💪 Written in TypeScript
 * 🔥Render props
@@ -41,15 +41,56 @@ const App = () => (
 ### Props
 
 #### Componenet props
-**`elements`**: Object with name of tracked sections as `keys` and config object as `values`.
+
+**`elements` (required) object**: Object with name of tracked sections as `keys` and config object as `values`. Object has to be complete during mounting of the component - as for now there is no support for dynamic elements 
+```typescript
+interface IElements {
+  [elementName: string]: object;
+}
+```
+example:
 ```js
-const config = {};
+const config = {}; no config available yet // TODO
 const elements = { EL1Name: config, EL2Name: config };
 <ScrollNavigation elements={elements}>
 ```
-**`element.config`**: no config available yet //TODO
+
+
+**`shouldEnableHistory?` (optional)** boolean (default `undefined`):
+Set to true to modify history when navigating to element (enable back button);  
+```typescript
+shouldEnableHistory?: boolean
+```
+
+
+**`shouldModifyUrl?`** boolean (default `undefined`):
+Set to true to modify url when navigating to element (add http://yoururl.com/#ElementName)  
+`shouldEnableHistory` has to be set to true as well for it to work;
+```typescript
+shouldModifyUrl?: boolean
+```
+
 
 #### Render prop props
-**`refs`**: Object with same keys as `elements` and `createRef` as values. Component needs refs set properly to work.  
-**`goTo`**: function that takes as argument element key or number. When called will initaite scroll transition to given element or to given scroll position. To go to top use `goTo(0)`, to go to `EL2Name` use `goTo("EL2Name")`
-**`activeElement`**: Key of element that is active in the current scroll position (takes at least 50% of the view).
+
+**`refs`**: 
+Object with same keys as `elements` and `createRef` as values. **All refs have to be created.**
+```typescript
+{
+  [key in keyof IElements]: React.RefObject<>
+}
+```
+
+
+**`goTo`**:
+function that takes as argument element key or number. When called will initaite scroll transition to given element or to given scroll position. To go to top use `goTo(0)`, to go to `EL2Name` use `goTo("EL2Name")`
+```typescript
+(scrollTo: keyof IElements | number, behaviour:  "auto" | "instant" | "smooth" = "smooth") => void
+```
+
+
+**`activeElement`**:
+Key of element that is active in the current scroll position (takes at least 50% of the view).
+```typescript
+keyof IElements
+```
