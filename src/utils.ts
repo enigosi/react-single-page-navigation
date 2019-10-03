@@ -8,7 +8,7 @@ export function mapValues<
     [key: string]: any;
   },
   R
->(callback: (originalValu: any) => R, obj: T): { [B in keyof T]: R } {
+>(callback: (originalValue: any) => R, obj: T): { [B in keyof T]: R } {
   const mappedObject: { [B in keyof T]?: R } = {};
   for (const key of Object.keys(obj)) {
     mappedObject[key] = callback(obj[key]);
