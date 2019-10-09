@@ -20,6 +20,7 @@ export interface IProps<T> {
   elements: T;
   shouldEnableHistory?: boolean;
   shouldModifyUrl?: boolean;
+  offset?: number;
 }
 export interface IState<T> {
   activeElement?: keyof T;
@@ -97,10 +98,14 @@ class IndexPage<T extends IElements> extends React.Component<
       return;
     }
 
-    const scrollToPosition =
+    let scrollToPosition =
       typeof scrollTo === "number"
         ? scrollTo
         : this.sectionsRefs[scrollTo].current!.offsetTop;
+
+    if (this.props.offset) {
+      scrollToPosition += this.props.offset;
+    }
 
     window.scrollTo({
       top: scrollToPosition,

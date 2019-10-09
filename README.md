@@ -71,6 +71,13 @@ shouldModifyUrl?: boolean
 ```
 
 
+**`offset?`** number (default `undefined`):
+Scrolltop offset in pixels, useful for fixed navbars
+```typescript
+offset?: number
+```
+
+
 #### Render prop props
 
 **`refs`**: 

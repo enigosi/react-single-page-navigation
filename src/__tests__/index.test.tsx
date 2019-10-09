@@ -174,6 +174,49 @@ describe("Component", () => {
     spy.mockRestore();
   });
 
+  test("should scroll to element with offset", () => {
+    const spy = jest
+      .spyOn(global as any, "scrollTo")
+      .mockImplementation(() => undefined);
+
+    const children = jest.fn(({ refs }) => (
+      <div>
+        <TestChildren ref={refs.EL1}>1</TestChildren>
+        <TestChildren offsetTop={DEFAULT_TEST_ELEMENT_HEIGHT} ref={refs.EL2}>
+          2
+        </TestChildren>
+      </div>
+    ));
+
+    const wrapper = mount(
+      <Component elements={{ EL1: {}, EL2: {} }} offset={-100}>
+        {children}
+      </Component>
+    );
+
+    const { goTo } = getLastCallFirstArg(children);
+
+    expect(goTo).toBeDefined();
+
+    goTo("EL2");
+
+    const calledByNameParam = getLastCallFirstArg(spy);
+    expect(calledByNameParam.behavior).toBe("smooth");
+    expect(calledByNameParam.top).toBe(DEFAULT_TEST_ELEMENT_HEIGHT - 100);
+
+    goTo(333);
+
+    const calledByPosition = getLastCallFirstArg(spy);
+    expect(calledByPosition.top).toBe(233);
+
+    goTo(0, "auto");
+
+    const calledWithBehaviour = getLastCallFirstArg(spy);
+    expect(calledWithBehaviour.behavior).toBe("auto");
+
+    spy.mockRestore();
+  });
+
   test("should correctly modify history and hash", () => {
     // we will be looking if window.history.pushState and window.history.replaceState
     // was called with right parameters
