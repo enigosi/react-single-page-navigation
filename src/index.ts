@@ -22,6 +22,7 @@ export interface IProps<T> {
   shouldModifyUrl?: boolean;
   offset?: number;
 }
+
 export interface IState<T> {
   activeElement?: keyof T;
 }
@@ -91,7 +92,8 @@ class IndexPage<T extends IElements> extends React.Component<
 
   public goTo = (
     scrollTo: keyof T | number,
-    behavior: ScrollToOptions["behavior"] = "smooth"
+    behavior: ScrollToOptions["behavior"] = "smooth",
+    offset?: number
   ) => {
     // exit if element doesn't exist
     if (scrollTo === "string" && !this.sectionsRefs[scrollTo].current) {
@@ -105,6 +107,10 @@ class IndexPage<T extends IElements> extends React.Component<
 
     if (this.props.offset) {
       scrollToPosition += this.props.offset;
+    }
+
+    if (offset) {
+      scrollToPosition += offset;
     }
 
     window.scrollTo({

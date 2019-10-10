@@ -90,9 +90,9 @@ Object with same keys as `elements` and `createRef` as values. **All refs have t
 
 
 **`goTo`**:
-function that takes as argument element key or number. When called will initaite scroll transition to given element or to given scroll position. To go to top use `goTo(0)`, to go to `EL2Name` use `goTo("EL2Name")`
+function that takes as argument element key or number. When called it will initiate scroll transition to given element or to given scroll position. You can modify scroll position additionally to global offset with section offset with third parameter `offset`. To go to top use `goTo(0)`, to go to top plus 100px use `goto(0, "smooth", 100)`, to go to `EL2Name` use `goTo("EL2Name")`
 ```typescript
-(scrollTo: keyof IElements | number, behaviour:  "auto" | "instant" | "smooth" = "smooth") => void
+(scrollTo: keyof IElements | number, behaviour:  "auto" | "instant" | "smooth" = "smooth", offset?: number) => void
 ```
 
 

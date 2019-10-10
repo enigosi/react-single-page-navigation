@@ -204,6 +204,14 @@ describe("Component", () => {
     expect(calledByNameParam.behavior).toBe("smooth");
     expect(calledByNameParam.top).toBe(DEFAULT_TEST_ELEMENT_HEIGHT - 100);
 
+    goTo("EL2", "smooth", -100);
+
+    const calledByNameParamWithSectionOffset = getLastCallFirstArg(spy);
+    expect(calledByNameParamWithSectionOffset.behavior).toBe("smooth");
+    expect(calledByNameParamWithSectionOffset.top).toBe(
+      DEFAULT_TEST_ELEMENT_HEIGHT - 200
+    );
+
     goTo(333);
 
     const calledByPosition = getLastCallFirstArg(spy);
