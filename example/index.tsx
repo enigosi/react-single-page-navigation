@@ -1,3 +1,6 @@
+// tslint:disable-next-line:no-submodule-imports
+import "react-app-polyfill/stable";
+
 import * as React from "react";
 import { render } from "react-dom";
 import AnchorNav from "../src";
